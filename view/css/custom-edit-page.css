@@ -1,0 +1,67 @@
+.modal-dialog{
+    position: relative;
+    display: table; //This is important 
+    overflow-y: auto;    
+    overflow-x: auto;
+    width: 400px !important;
+    min-width: 400px !important;   
+}
+
+	
+	@media (min-width: 1200px)
+	bootstrap.min.css:11
+	.container {
+		width: 1450px !important;
+	}
+	
+	.dataTables_wrapper{
+		border-width: 1px !important;
+		border-style:solid !important;
+		border-color: #A1A1A1 !important;
+		padding: 5px !important;
+	}
+	
+	.padding_10{
+		padding:10px !important;
+	}
+	
+	.padding_5{
+		padding:5px !important;
+	}
+	
+	.col-sm-12{
+		text-align:center;
+	}
+	
+	.img-responsive{
+		width:150px;
+	}
+	
+
+	
+   /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+   
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 5px;
+	  margin-top: 135px;
+	  display:none !important;
+    }
+	
+	.jumbotron {
+		padding: 0px !important;
+	}
+	
+	body{
+		font-family: 'Istok Web', sans-serif;
+	}
