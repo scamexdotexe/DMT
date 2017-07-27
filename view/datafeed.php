@@ -60,7 +60,7 @@
 	}	
 ?>
 
-<!-- START HEADER------------------------------------------------------------->
+
 <head>
   <title>DMT WORK</title>
   <meta charset="utf-8">
@@ -101,7 +101,7 @@
   </div>
 </nav>
 
-<!-- END HEADER------------------------------------------------------------->
+
   
 <?php
 	$stmtuser = $con_datafeed_db->prepare("SELECT * FROM warning_list");
@@ -119,7 +119,14 @@
 
 <div class="container">    
 	<div class="row">
+	<div class="col-xs-2">
 		<button style="margin-left: 15px;" type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-success"><center>Create Datafeed</center></button> 
+	</div>
+	<div class="col-xs-10">
+		<div id="feedback">
+	
+		</div>
+		</div>
 	</div>
 	<br/>
     <?php
@@ -188,6 +195,21 @@
 		
 </div><br>
 
+<!-- modal spinner -->
+ <div class="modal fade" id="spinner" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">          
+          <h4 class="modal-title"><b>Please wait...</b></h4>
+        </div>
+        <div class="modal-body">
+		<img style="margin: auto; display: block;" src="images/ajax-loader.gif" alt="">
+        </div>
+       
+      </div> 
+    </div>
+  </div>
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -198,7 +220,7 @@
           <h4 class="modal-title"><b>Create Datafeed</b></h4>
         </div>
         <div class="modal-body">
-		<form action="../controller/DataValidationController.php" class="project" enctype="multipart/form-data" method="POST">
+		<form id="upload_data" class="project" enctype="multipart/form-data" method="POST">
 		  <label for="project_id">Select Project</label>
 		  
 			<?php
@@ -209,7 +231,7 @@
 			
 			if($rowCount >= 1){
 			?>
-			<select name="project_id">
+			<select id="project_id" name="project_id">
 			<?php
 				while ($row = $stmtuser->fetch())
 				{
@@ -228,9 +250,12 @@
 			}
 			?>	
 		  <hr/>
-		  <input  type="file" id="data_feed" name="data_feed" />
+		  <label>Current Product List<input  type="file" id="data_feed" name="data_feed" /></label>
+		  <hr/>		 
+		  <label>Product Feed<input  type="file" id="product_feed" name="data_feed" /></label>
 		  <hr/>
-		  <input type="hidden" name="user_id" value="<?php echo "$user_id" ?>" required>
+		  <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" required>
+
 		  <center><button type="submit" id="ajax" class="btn btn-primary">Submit</button></center>
 		</form>
         </div>
@@ -265,8 +290,98 @@ $(':file').change(function(){
 			$('#ajax').attr('disabled','disabled');	
     }
 });
-	
+
+
+
 </script>
+
+<script>
+      /*  $('#upload_data').submit(function (e) {
+
+        	e.preventDefault();
+
+        	$('#spinner').modal('show');
+        	$('#myModal').modal('hide');
+
+            var form = $('form');
+            var formData = new FormData();
+            $.each($(':input', form), function (i, fileds) {
+                formData.append($(fileds).attr('name'), $(fileds).val());
+            });
+            $.each($('input[type=file]', form)[0].files, function (i, file) {
+                formData.append(file.name, file);
+            });
+            $.ajax({
+                url: '../controller/runscript.php',
+                method: 'POST',
+                enctype: 'multipart/form-data',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    // alert(data);
+                    $('#feedback').empty();
+                    $('#feedback').append('<div class="alert alert-success">' +
+   data+
+'</div>');
+                    $('#spinner').modal('hide');
+                },
+                error: function (data) {
+                	$('#feedback').empty();
+                    $('#feedback').append('<div class="alert alert-warning"><pre>' +
+   JSON.stringify(data) +
+'</pre></div>');
+                    $('#spinner').modal('hide');
+                }
+            });
+        }); */
+	</script>
+
+	<script>
+		
+		$('#upload_data').submit(function(e){
+        e.preventDefault();
+
+         		$('#spinner').modal('show');
+          	   $('#myModal').modal('hide');
+
+        var formData = new FormData($(this)[0]);
+
+        var inputs = $("#upload_data input[type='file']");
+
+        $.each(inputs, function (obj, v) {
+        	var file = v.files[0];
+        	 var name = $(v).attr("id");
+        	 formData.append(name, file);
+    	});
+
+        $.ajax({
+            url: '../controller/runscript.php',
+            type: 'POST',
+            data: formData,
+            async: false,
+            enctype: 'multipart/form-data',            
+            success: function (data) {
+                $('#feedback').empty();
+                    $('#feedback').append('<div class="alert alert-success">' +
+   data+
+'</div>');
+                    $('#spinner').modal('hide');
+            },
+            error: function(){
+               $('#feedback').empty();
+                    $('#feedback').append('<div class="alert alert-warning"><pre>' +
+   JSON.stringify(data) +
+'</pre></div>');
+                    $('#spinner').modal('hide');
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    });
+	</script>
 
 </body>
 </html>
