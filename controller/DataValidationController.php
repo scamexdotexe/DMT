@@ -191,7 +191,7 @@ foreach ($dataFeedLines as $key => $value) {
 					insertWarning($con_datafeed_db,$warning_field,$warning_message,$other_data);
 				}
 				
-				echo 'IMAGE LINK: >>>>>>' .$image_link;
+				
 				if(strpos($image_link, '.jpg') !== false){
 					
 				}elseif(strpos($image_link, '.jpg') !== false){
@@ -221,7 +221,7 @@ foreach ($dataFeedLines as $key => $value) {
 				}
 
 		//-----------------------------------------ID Validation
-			echo 'id: '. $id;
+			
 			if($id == '' OR $id == null){
 				$warning_field = 'id';
 				$warning_message = 'no data';
@@ -237,7 +237,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 			
 		//-----------------------------------------LABEL Validation
-			echo 'label: '. $label;
+			
 			if($label == '' OR $label == null){
 				//failed
 				$warning_field = 'label';
@@ -247,7 +247,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 		
 		//-----------------------------------------PRICE Validation
-			echo 'price: '. $price;
+			
 			if($price == '' OR $price == null){
 				//failed
 				$warning_field = 'price';
@@ -257,7 +257,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 			
 		//-----------------------------------------SIZE Validation
-			echo 'size: '. $size;
+			
 			if($size == '' OR $size == null){
 				//failed
 				$warning_field = 'size';
@@ -273,7 +273,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 			
 		//-----------------------------------------AVAILABILITY Validation
-			echo 'availability: '. $availability;
+			
 			if($availability == '' OR $availability == null){
 				//failed
 				$warning_field = 'availability';
@@ -283,7 +283,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 		 
 		//-----------------------------------------CONDITION Validation
-			echo 'condition: '. $item_condition;
+			
 			if($item_condition == '' OR $item_condition == null){
 				//failed
 				$warning_field = 'condition';
@@ -293,7 +293,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 		 
 		//-----------------------------------------BRAND Validation
-			echo 'brand: '. $brand;
+			
 			if($brand == '' OR $brand == null){
 				//failed
 				$warning_field = 'brand';
@@ -309,7 +309,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 		
 		//-----------------------------------------GOOGLE PRODUCT CATEGORY Validation
-			echo 'google_product_category: '. $google_product_category;
+			
 			if($google_product_category == '' OR $google_product_category == null){
 				//failed
 				$warning_field = 'google_product_category';
@@ -319,7 +319,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 		 
 		//-----------------------------------------GENDER Validation
-			echo 'gender: '. $gender;
+			
 			if($gender == '' OR $gender == null){
 				//failed
 				$warning_field = 'gender';
@@ -337,7 +337,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 		 
 		//-----------------------------------------GENDER Validation
-			echo 'age_group: '. $age_group;
+			
 			if($age_group == '' OR $age_group == null){
 				$warning_field = 'age_group';
 				$warning_message = 'no data';
@@ -354,7 +354,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 		 
 		//-----------------------------------------MPN Validation
-			echo 'mpn: '. $mpn;
+			
 			if($mpn == '' OR $mpn == null){
 				//failed
 				$warning_field = 'mpn';
@@ -370,7 +370,7 @@ foreach ($dataFeedLines as $key => $value) {
 			}
 		 
 		//-----------------------------------------COLOR Validation
-			echo 'color: '. $color;
+			
 			if($color == '' OR $color == null){
 				//failed
 				$warning_field = 'color';
@@ -385,7 +385,7 @@ foreach ($dataFeedLines as $key => $value) {
 				insertWarning($con_datafeed_db,$warning_field,$warning_message,$other_data);
 			}
 		 
-			echo 'item_group_id: '. $item_group_id;
+			
 			if($item_group_id == '' OR $item_group_id == null){
 				//failed
 				$warning_field = 'item_group_id';
