@@ -17,7 +17,7 @@ if (isset($_POST['project_id']) AND isset($_POST['user_id'])){
 
 	$pid = $_POST['project_id'];
 	$uid = $_POST['user_id'];
-	$filename = $_POST['data_feed'];
+	// $filename = $_POST['data_feed'];
 	// $filename = $_FILES["file"]["tmp_name"];	
 	// print_r($filename);
 
@@ -29,7 +29,7 @@ if (isset($_POST['project_id']) AND isset($_POST['user_id'])){
 		$base_feed 		= $_FILES['data_feed']['tmp_name'];
 		$product_feed 	= $_FILES['product_feed']['tmp_name'];
 
-		echo $data_feed . ' ' . $product_feed;
+		// echo $data_feed . ' ' . $product_feed;
 
 	echo system("php ". 'DataValidationController.php' . ' ' . $base_feed . ' ' . $product_feed . ' ' . $pid . ' ' . $uid);
 

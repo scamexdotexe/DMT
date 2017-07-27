@@ -1,12 +1,17 @@
 <?php
+include_once("../datafeed-db_config.php");
+global $con_datafeed_db;
+
 error_reporting(0);
 
 $basefeed 			= urldecode($argv[1]);
 $productfeed 		= urldecode($argv[2]);
+
 $pid 				= urldecode($argv[3]);
 $uid 				= urldecode($argv[4]);
 
 $productFeed 	= file_get_contents($productfeed);
+
 $dataFeed		= file_get_contents($basefeed);
 
 $productLine 	= explode("\n",$productFeed);
@@ -21,7 +26,7 @@ $dataFeedCols   = explode("\t",$productFeed);
 $newDataFeed	= "product_type\ttitle\tdescription\tlink\timage_link\tid\tlabel\tprice\tsize\tavailability\tcondition\tbrand\tgoogle_product_category\tgender\tage_group\tmpn\tcolor\titem_group_id\tstyle_number\tGTIN\n";
 $removedData	= "product_type\ttitle\tdescription\tlink\timage_link\tid\tlabel\tprice\tsize\tavailability\tcondition\tbrand\tgoogle_product_category\tgender\tage_group\tmpn\tcolor\titem_group_id\tstyle_number\tGTIN\n";
 
-echo "[+] Data Length: ".count($dataFeedLines)."\n";
+// echo "[+] Data Length: ".count($dataFeedLines)."\n";
 
 // if not in productfeed then remove from datafeed
 // update status in datafeed with status from productfeed
@@ -473,18 +478,26 @@ foreach ($productLine as $key => $value) {
 }
 
 // Write the contents back to the file
-file_put_contents("new_datafeedversion4.txt", $newDataFeed);
-file_put_contents("removedData.txt", $removedData);
+file_put_contents("public/new_datafeedversion4.txt", $newDataFeed);
+file_put_contents("public/removedData.txt", $removedData);
 
 echo "Done. Files created.";
 
 
 
 function insertWarning($con_datafeed_db,$warning_field,$warning_message,$other_data){
-	echo 'warning field: '.$warning_field;
+	// echo 'warning field: '.$warning_field . $warning_message;
+	try {
 	global $con_datafeed_db,$warning_field,$warning_message,$other_data,$user_id,$project_id;
+	echo 'global';
 	$stmtdatafeed = $con_datafeed_db->prepare("INSERT INTO warning_list (project_id,user_id,warning_field,warning_message,other_data) VALUES (?,?,?,?,?)");
-	$stmtdatafeed->execute(array('1',$user_id,$warning_field,$warning_message,$other_data));
+	$stmtdatafeed->execute(array($project_id,$user_id,$warning_field,$warning_message,$other_data));
+	echo 'execute';
+
+	}catch(Exception $e) {
+    echo 'Exception -> ';
+    var_dump($e->getMessage());
+	}
 	//exit(header('Location: ' . $_SERVER['HTTP_REFERER']));
 	// redirect($user_id);
 }

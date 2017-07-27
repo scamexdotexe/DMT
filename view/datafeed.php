@@ -252,7 +252,7 @@
 		  <hr/>
 		  <label>Current Product List<input  type="file" id="data_feed" name="data_feed" /></label>
 		  <hr/>		 
-		  <label>Product Feed<input  type="file" id="product_feed" name="data_feed" /></label>
+		  <label>Product Feed<input  type="file" id="product_feed" name="product_feed" /></label>
 		  <hr/>
 		  <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" required>
 
