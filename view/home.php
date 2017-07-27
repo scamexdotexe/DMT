@@ -61,6 +61,7 @@
 	}
 	
 	$stmtuser = $connection->prepare("SELECT * FROM tbl_user WHERE username = :username");
+
 	$stmtuser->execute(['username' => $username]);
 	$rowCount = $stmtuser->rowCount();
 	
@@ -73,16 +74,20 @@
 			$password = $row['password'];
 			$email = $row['email'];
 			
+			echo "User id " . $user_id;
+
 			//Create Session
 			$_SESSION["user_id"] = $user_id;
 			$_SESSION["username"] = $username;
 			$_SESSION["password"] = $password;
 			$_SESSION["email"] = $email;
 		}	
+	}else{
+		// echo 'User not found.' . $username;
 	}	
 ?>
 
-<!-- START HEADER------------------------------------------------------------->
+
 <head>
   <title>DMT WORK</title>
   <meta charset="utf-8">
@@ -124,7 +129,7 @@
   </div>
 </nav>
 
-<!-- END HEADER------------------------------------------------------------->
+
 
 
 <div class="container" >   
