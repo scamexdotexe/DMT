@@ -127,7 +127,7 @@
 	</div>
 	<div class="col-xs-10">
 		<div id="feedback">
-	
+			<span>* Before you can add product feed, add base feed first for your project.</span>
 		</div>
 	</div>
 
