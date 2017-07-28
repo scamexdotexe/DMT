@@ -74,7 +74,7 @@
 			$password = $row['password'];
 			$email = $row['email'];
 			
-			echo "User id " . $user_id;
+			// echo "User id " . $user_id;
 
 			//Create Session
 			$_SESSION["user_id"] = $user_id;
@@ -105,7 +105,7 @@
 
 </head>
 
-<nav class="navbar navbar-inverse" style="background-color:#8b9dc3 !important;border-color:none !important">
+<nav class="navbar navbar-inverse" style="background-color:#2a363b !important;border-color:none !important">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">

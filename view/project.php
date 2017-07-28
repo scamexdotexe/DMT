@@ -8,6 +8,8 @@
 	session_start();
 	include_once("../config.php");
 	include_once('view_variables.php');
+	include_once('../includes/functions.php');
+
 	$counter = true;
 	if(isset($_SESSION['user_id'])) {
 		//$post_GET = $_GET['id'];
@@ -37,7 +39,7 @@
 	}	
 ?>
 
-<!-- START HEADER------------------------------------------------------------->
+
 <head>
   <title>DMT WORK</title>
   <meta charset="utf-8">
@@ -82,7 +84,7 @@
 
 </head>
 
-<nav class="navbar navbar-inverse" style="background-color:#8b9dc3 !important;border-color:none !important">
+<nav class="navbar navbar-inverse" style="background-color:#2a363b !important;border-color:none !important">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -106,7 +108,7 @@
   </div>
 </nav>
 
-<!-- END HEADER------------------------------------------------------------->
+
 
 <!-- For Data Tables -->
     <script>
@@ -119,7 +121,16 @@
 
 <div class="container">    
 	<div class="row">
+
+	<div class="col-xs-2">
 		<button style="margin-left: 15px;" type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-success"><center>Create Project</center></button> 
+	</div>
+	<div class="col-xs-10">
+		<div id="feedback">
+	
+		</div>
+	</div>
+
 	</div>
 	<br/>
     <?php
@@ -158,6 +169,9 @@
 			</tfoot>
 			<tbody>
 				<?php
+
+
+
 					if ($result->num_rows > 0) {
 					while($row = $result->fetch_assoc()) {
 						$project_id = $row["id"];
@@ -167,8 +181,16 @@
 						"<td>".$row["project_type"]."</td>".
 						"<td>".$row["data_feed"]."</td>".
 						"<td>".$row["timestamp"]."</td>".
-						"<td><a class ='btn btn-primary btn-sm' href='../api/delete_projects.php?project_id=$project_id&user_id=$user_id'>"."Delete</a></td>".
-						"</tr>";
+						"<td><a class ='btn btn-warning btn-sm' href='../api/delete_projects.php?project_id=$project_id&user_id=$user_id'>"."Delete</a> ";
+
+						if(isFeedExists($project_id)){
+
+						}else{
+
+						echo " <a  data-toggle='modal' data-target='#myModalBase' id='{$project_id}' data-id='{$project_id}'  class ='btn btn-success btn-sm' href='#'>"."Add Base Data</a></td>";
+						}
+						
+						echo "</tr>";
 					}
 					} else {
 						echo "0 results";
@@ -179,6 +201,48 @@
 		</table>
 		
 </div><br>
+
+<!-- modal spinner -->
+ <div class="modal fade" id="spinner" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">          
+          <h4 class="modal-title"><b>Please wait...</b></h4>
+        </div>
+        <div class="modal-body">
+		<img style="margin: auto; display: block;" src="images/ajax-loader.gif" alt="">
+        </div>
+       
+      </div> 
+    </div>
+  </div>
+ <!-- Modal -->
+  <div class="modal fade" id="myModalBase" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><b>Upload Basefeed</b></h4>
+        </div>
+        <div class="modal-body">
+		<form id="basefeed" class="project" enctype="multipart/form-data" method="POST">
+          <label for="project_na">Select a basefeed file.</label>
+		  <input type="file" name="basefeed" required>
+		 
+		  <hr/>
+		  <input type="hidden" name="user_id" value="<?php echo "$user_id" ?>" required>
+		  <input type="hidden" id="project_idcontainer" name="project_id" required>
+		  <center><button type="submit" id="ajax" class="btn btn-primary">Submit</button></center>
+		</form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div> 
+    </div>
+  </div>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -204,6 +268,7 @@
 		  </select>
 		  <hr/>
 		  <input type="hidden" name="user_id" value="<?php echo "$user_id" ?>" required>
+		  
 		  <center><button type="submit" id="ajax" class="btn btn-primary">Submit</button></center>
 		</form>
         </div>
@@ -217,14 +282,27 @@
 <!-- Script -->
 <script>
 
+	$('#myModalBase').on('show.bs.modal',function(e){
+        
+        var invoker = $(e.relatedTarget).attr('id');
+        
+        $('#project_idcontainer').val(invoker);
+
+        
+    });
+
 $(':file').change(function(){
     var file = this.files[0];
     name = file.name;
     size = file.size;
     type = file.type;
-	if(size > 5000){
-	    alert('The File is greater than 5MB');
+
+    size = size / 1000;
+	if(size > 9000){
+	    alert('The File is greater than allowed size.' + size);
 		$('#ajax').attr('disabled','disabled');	
+	}else{
+		alert(size);
 	}
 	
     var ext = this.value.match(/\.(.+)$/)[1];
@@ -240,6 +318,53 @@ $(':file').change(function(){
 });
 	
 </script>
+
+<script>
+		
+		$('#basefeed').submit(function(e){
+
+        e.preventDefault();
+
+         		$('#spinner').modal('show');
+          	   $('#myModalBase').modal('hide');
+
+        var formData = new FormData($(this)[0]);
+
+        var inputs = $("#upload_data input[type='file']");
+
+        $.each(inputs, function (obj, v) {
+        	var file = v.files[0];
+        	 var name = $(v).attr("id");
+        	 formData.append(name, file);
+    	});
+
+        $.ajax({
+            url: '../controller/addbase.php',
+            type: 'POST',
+            data: formData,
+            async: false,
+            enctype: 'multipart/form-data',            
+            success: function (data) {
+                $('#feedback').empty();
+                    $('#feedback').append('<div class="alert alert-success">' +
+   data+
+'</div>');
+                    $('#spinner').modal('hide');
+            },
+            error: function(){
+               $('#feedback').empty();
+                    $('#feedback').append('<div class="alert alert-warning"><pre>' +
+   JSON.stringify(data) +
+'</pre></div>');
+                    $('#spinner').modal('hide');
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    });
+	</script>
 
 </body>
 </html>

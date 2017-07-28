@@ -3,6 +3,7 @@ include_once("../datafeed-db_config.php");
 global $con_datafeed_db;
 
 error_reporting(0);
+ini_set('max_execution_time', 3600);
 
 $basefeed 			= urldecode($argv[1]);
 $productfeed 		= urldecode($argv[2]);
@@ -17,8 +18,8 @@ $dataFeed		= file_get_contents($basefeed);
 $productLine 	= explode("\n",$productFeed);
 $productCols	= explode("\t",$productFeed); // array with all columns
 
-echo "[+] Products Length: ".count($productCols)."\n";
-echo "[+] Products Lines Length: ".count($productLine)."\n";
+/*echo "[+] Products Length: ".count($productCols)."\n";
+echo "[+] Products Lines Length: ".count($productLine)."\n"; */
 
 $dataFeedLines  = explode("\n",$dataFeed);
 $dataFeedCols   = explode("\t",$productFeed);
@@ -64,12 +65,15 @@ foreach ($dataFeedLines as $key => $value) {
 	$gtin		 				= preg_replace('/\s+/', '', $each_line[19]);
 
 	/*
+
 	if in datafeed but not ptoduct feed = remove
 
 	if in product feed but not datafeed = add
 
 	if in both files adjust in stock, price fields
+
 	*/
+
 	$key = array_search($id, $productCols); //Searches the array for a given value and returns the first corresponding key if successful
 	if ($key !== false) {
 		$newStatus = $productCols[$key+4];
@@ -85,6 +89,8 @@ foreach ($dataFeedLines as $key => $value) {
 	if ((in_array($link,$productCols)) AND (in_array($id,$productCols))){
 		// if in datafeed and in productfeed ==> adjust in stock, price fields
 		$newDataFeed .= "$product_type \t $title \t $description \t $link \t $image_link \t $id \t $label \t $price \t $size \t $newAvailability \t $item_condition \t $brand \t $google_product_category \t $gender \t $age_group \t $mpn \t $color \t $item_group_id \t $style_number \t $gtin \n";
+
+
 	}else{
 		// if in datafeed but not in productfeed ==> remove
 		$removedData .= "$product_type \t $title \t $description \t $link \t $image_link \t $id \t $label \t $price \t $size \t $availability \t $item_condition \t $brand \t $google_product_category \t $gender \t $age_group \t $mpn \t $color \t $item_group_id \t $style_number \t $gtin \n";
@@ -434,7 +440,7 @@ foreach ($dataFeedLines as $key => $value) {
 
 
 
-	echo ".";
+	// echo ".";
 
 
 }
@@ -478,21 +484,27 @@ foreach ($productLine as $key => $value) {
 }
 
 // Write the contents back to the file
-file_put_contents("public/new_datafeedversion4.txt", $newDataFeed);
-file_put_contents("public/removedData.txt", $removedData);
+$ndf = file_put_contents("public/new_datafeedversion4.txt", $newDataFeed);
+$rd  = file_put_contents("public/removedData.txt", $removedData);
 
-echo "Done. Files created.";
+if($ndf and $rd){
+	echo "Done. Files created.";	
+}else{
+	echo "There were errors while writing the file.";
+}
+
+
 
 
 
 function insertWarning($con_datafeed_db,$warning_field,$warning_message,$other_data){
 	// echo 'warning field: '.$warning_field . $warning_message;
 	try {
-	global $con_datafeed_db,$warning_field,$warning_message,$other_data,$user_id,$project_id;
-	echo 'global';
+	global $con_datafeed_db,$warning_field,$warning_message,$other_data,$uid,$pid;
+	
 	$stmtdatafeed = $con_datafeed_db->prepare("INSERT INTO warning_list (project_id,user_id,warning_field,warning_message,other_data) VALUES (?,?,?,?,?)");
-	$stmtdatafeed->execute(array($project_id,$user_id,$warning_field,$warning_message,$other_data));
-	echo 'execute';
+	$stmtdatafeed->execute(array($pid,$uid,$warning_field,$warning_message,$other_data));
+	
 
 	}catch(Exception $e) {
     echo 'Exception -> ';

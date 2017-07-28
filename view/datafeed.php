@@ -77,7 +77,7 @@
 
 </head>
 
-<nav class="navbar navbar-inverse" style="background-color:#8b9dc3 !important;border-color:none !important">
+<nav class="navbar navbar-inverse" style="background-color:#2a363b !important;border-color:none !important">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -248,7 +248,10 @@
 			</select>
 			<?php
 			}
+
+
 			?>	
+			<a href="">Upload base datafeed.</a>
 		  <hr/>
 		  <label>Current Product List<input  type="file" id="data_feed" name="data_feed" /></label>
 		  <hr/>		 
