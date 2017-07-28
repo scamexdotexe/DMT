@@ -237,9 +237,11 @@
 				{
 					//FETCH DATA
 					$project_id = $row['id'];
+
 					$project_na = $row['project_na'];
+					/*
 					$password = $row['password'];
-					$email = $row['email'];
+					$email = $row['email'];*/
 				?>
 			<option value="<?php echo $project_id?>"><?php echo $project_na?></option>	
 				<?php
@@ -251,15 +253,18 @@
 
 
 			?>	
-			<a href="">Upload base datafeed.</a>
+		<div class="filediv">
 		  <hr/>
 		  <label>Current Product List<input  type="file" id="data_feed" name="data_feed" /></label>
 		  <hr/>		 
 		  <label>Product Feed<input  type="file" id="product_feed" name="product_feed" /></label>
 		  <hr/>
 		  <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" required>
-
+		
+		
 		  <center><button type="submit" id="ajax" class="btn btn-primary">Submit</button></center>
+		  </div>
+		  <div class="childfeedback"></div>
 		</form>
         </div>
         <div class="modal-footer">
@@ -271,6 +276,45 @@
   
 <!-- Script -->
 <script>
+
+	function toggleFile(pid){
+		
+
+		
+		 $.ajax({
+            url: '../controller/checkdatafeed.php',
+            type: 'POST',
+            data: "id=" + pid,                        
+            success: function (data) {            	
+               if(data == 'true'){
+               		$('.filediv').show();
+               		$('.childfeedback').text('');
+               }else{
+               		$('.filediv').hide();
+               		$('.childfeedback').html('<span style="color: red;margin-top: 10px;display:block;">No base feed for selected project.</span>');
+               }
+            }
+           
+           
+           
+        });
+	}
+
+	$('#project_id').on('change', function() {
+
+		var id = $(this).val();		
+  		toggleFile(id);  		
+
+	});
+
+	$('#myModal').on('show.bs.modal',function(e){
+        
+        var project_id = $('#project_id').val();
+
+        toggleFile(project_id);
+
+        
+    });
 
 $(':file').change(function(){
     var file = this.files[0];
