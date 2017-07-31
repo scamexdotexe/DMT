@@ -1,30 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-.modal-dialog{
-    position: relative;
-    display: table; //This is important 
-    overflow-y: auto;    
-    overflow-x: auto;
-    width: 400px !important;
-    min-width: 400px !important;   
-}
 
-	
-	@media (min-width: 1200px)
-	bootstrap.min.css:11
-	.container {
-		width: 1450px !important;
-	}
-	
-	.dataTables_wrapper{
-		border-width: 1px !important;
-		border-style:solid !important;
-		border-color: #A1A1A1 !important;
-		padding: 5px !important;
-	}
-	
-</style>
 <body>
 
 <?php
@@ -74,6 +50,7 @@
   <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
   <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
   <link href="css/custom-datafeed.css" rel="stylesheet">
+  <link href="css/custom-all.css" rel="stylesheet">
 
 </head>
 
@@ -104,7 +81,7 @@
 
   
 <?php
-	$stmtuser = $con_datafeed_db->prepare("SELECT * FROM warning_list");
+	$stmtuser = $connection->prepare("SELECT * FROM warning_list");
 	$rowCount = $stmtuser->rowCount();
 ?>
 
@@ -120,7 +97,7 @@
 <div class="container">    
 	<div class="row">
 	<div class="col-xs-2">
-		<button style="margin-left: 15px;" type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-success"><center>Create Datafeed</center></button> 
+		<button style="margin-left: 15px;" type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-success"><center>Create New Datafeed</center></button> 
 	</div>
 	<div class="col-xs-10">
 		<div id="feedback">
@@ -131,22 +108,16 @@
 	<br/>
     <?php
 	
-		$conn = mysqli_connect("localhost","root","","datafeed_db");
-		if (mysqli_connect_errno())
-		  {
-			echo "Failed to connect to MySQL: " . mysqli_connect_error();
-
-		  }else{
-		  }
+		
 	
 		$sql = "SELECT * FROM warning_list WHERE user_id = '$user_id' ";
-		$result = $conn->query($sql);
+		$result = $connection->query($sql);
 	?>
 		<table id="example" class="display" cellspacing="0" width="100%">
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Other Data</th>
+					
 					<th>Project id</th> 
 					<th>Timestamp</th> 
 					<th>User ID</th> 
@@ -157,8 +128,7 @@
 			</thead>
 			<tfoot>
 				<tr>
-					<th>ID</th>
-					<th>Other Data</th>
+					<th>ID</th>					
 					<th>Project id</th> 
 					<th>Timestamp</th> 
 					<th>User ID</th> 
@@ -169,26 +139,26 @@
 			</tfoot>
 			<tbody>
 				<?php
-					if ($result->num_rows > 0) {
-					while($row = $result->fetch_assoc()) {
+					if ($result->rowCount() > 0) {
+					while($row = $result->fetch( PDO::FETCH_ASSOC)) {
 						$datafeed_id = $row["id"];
+						$feed_id = $row["feed_id"];
 						echo "<tr>".
-						"<td>".$row["id"]."</td>".
-						"<td>".$row["other_data"]."</td>".
+						"<td>".$row["id"]."</td>".					
 						"<td>".$row["project_id"]."</td>".
 						"<td>".$row["timestamp"]."</td>".
 						"<td>".$row["user_id"]."</td>".
 						"<td>".$row["warning_field"]."</td>".
 						"<td>".$row["warning_message"]."</td>".
 						"<td>
-						<a class ='btn btn-primary btn-sm' href='edit-page_datafeed.php?datafeed_id=$datafeed_id&user_id=$user_id'>"."Edit</a>
+						<a class ='btn btn-primary btn-sm' href='edit-page_datafeed.php?datafeed_id=$datafeed_id&user_id=$user_id&fid=$feed_id'>"."Edit</a>
 						</td>".
 						"</tr>";
 					}
 					} else {
 						echo "0 results";
 					}
-					$conn->close();
+					// $connection->close();
 				?>
 			</tbody>
 		</table>
@@ -255,8 +225,7 @@
 			?>	
 		<div class="filediv">
 		  <hr/>
-		  <label>Current Product List<input  type="file" id="data_feed" name="data_feed" /></label>
-		  <hr/>		 
+		  	 
 		  <label>Product Feed<input  type="file" id="product_feed" name="product_feed" /></label>
 		  <hr/>
 		  <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" required>
@@ -342,55 +311,18 @@ $(':file').change(function(){
 
 </script>
 
-<script>
-      /*  $('#upload_data').submit(function (e) {
 
-        	e.preventDefault();
-
-        	$('#spinner').modal('show');
-        	$('#myModal').modal('hide');
-
-            var form = $('form');
-            var formData = new FormData();
-            $.each($(':input', form), function (i, fileds) {
-                formData.append($(fileds).attr('name'), $(fileds).val());
-            });
-            $.each($('input[type=file]', form)[0].files, function (i, file) {
-                formData.append(file.name, file);
-            });
-            $.ajax({
-                url: '../controller/runscript.php',
-                method: 'POST',
-                enctype: 'multipart/form-data',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    // alert(data);
-                    $('#feedback').empty();
-                    $('#feedback').append('<div class="alert alert-success">' +
-   data+
-'</div>');
-                    $('#spinner').modal('hide');
-                },
-                error: function (data) {
-                	$('#feedback').empty();
-                    $('#feedback').append('<div class="alert alert-warning"><pre>' +
-   JSON.stringify(data) +
-'</pre></div>');
-                    $('#spinner').modal('hide');
-                }
-            });
-        }); */
-	</script>
 
 	<script>
 		
 		$('#upload_data').submit(function(e){
         e.preventDefault();
+         // e.stopImmediatePropagation();
 
          		$('#spinner').modal('show');
           	   $('#myModal').modal('hide');
+
+          	    
 
         var formData = new FormData($(this)[0]);
 
@@ -409,10 +341,12 @@ $(':file').change(function(){
             async: false,
             enctype: 'multipart/form-data',            
             success: function (data) {
+            	// alert(data);
+
                 $('#feedback').empty();
                     $('#feedback').append('<div class="alert alert-success">' +
-   data+
-'</div>');
+   data +'  .' + '<a class="filedownload" href="../controller/download.php">Download files.</a></div>');
+
                     $('#spinner').modal('hide');
             },
             error: function(){
@@ -428,6 +362,12 @@ $(':file').change(function(){
         });
         return false;
     });
+
+		$('a.filedownload').click(function(e) {
+		    e.preventDefault();
+		    window.open('../controller/download.php?file=1');
+		    window.open('../controller/download.php?file=2');
+		});
 	</script>
 
 </body>

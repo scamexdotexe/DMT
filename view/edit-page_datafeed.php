@@ -38,7 +38,7 @@
 	}	
 ?>
 
-<!-- START HEADER------------------------------------------------------------->
+
 <head>
   <title>DMT WORK</title>
   <meta charset="utf-8">
@@ -55,7 +55,7 @@
 
 </head>
 
-<nav class="navbar navbar-inverse" style="background-color:#8b9dc3 !important;border-color:none !important">
+<nav class="navbar navbar-inverse" style="background-color:#2a363b !important;border-color:none !important">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -80,40 +80,96 @@
   </div>
 </nav>
 
-<!-- END HEADER------------------------------------------------------------->
+
 
 <center>
 <div class="container" >    
 	<div class="row" >
-	
-		<div class="col-sm-6" style="text-align:center;float:none;border-style: solid;">
-		<h4 class="padding_5" style="background-color:#f7f7f7;"> <b>Edit Page:</b></h4>
-		<form>  
-		  <div class="row">
-			<div class="col-sm-6">
-			  User id:<br>
-			  <input disabled type="text" name="project_id" value=<?php echo $user_id ?> ><br>
-			  Project id:<br>
-			  <input type="text" name="project_id" value=<?php echo $project_id ?> ><br>
-			  Warning Field:<br>
-			  <input type="text" name="warning_field" value=<?php echo $warning_field ?> ><br>
-			</div>
-			<div class="col-sm-6" style="float:left">
-			  Warning Message:<br>
-			  <input type="text" name="warning_message" value=<?php echo $warning_message ?> ><br>
-			  Other Data:<br>
-			  <textarea rows="5" cols="25">
-			  <?php echo $other_data ?>
-			  </textarea>
-			  <br>
-			</div>
-			<center>
-			<button style="margin-bottom:3px" type="submit" id="ajax" class="btn btn-primary">Submit</button>
-			</center>
-		  </div>
-		</form>
 		
-		</div>
+		<h3>Edit Data Feed</h3>
+
+	<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Product Type</th>
+      <td>Mark</td>
+    
+    </tr>
+    <tr>
+      <th>Title</th>
+      <td>Jacob</td>
+    
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td>Larry</td>    
+    </tr>
+        <tr>
+      <th>Link</th>
+      <td>Larry</td>    
+    </tr>
+        <tr>
+      <th>Image Link</th>
+      <td>Larry</td>    
+    </tr>
+        <tr>
+      <th>ID</th>
+      <td>Larry</td>    
+    </tr>
+        <tr>
+      <th>Availability</th>
+      <td>Larry</td>    
+    </tr>
+        <tr>
+      <th>Item Condition</th>
+      <td>Larry</td>    
+    </tr>
+        <tr>
+      <th>Brand</th>
+      <td>Larry</td>    
+    </tr>
+     <tr>
+      <th>Product Category</th>
+      <td>Larry</td>    
+    </tr>
+     <tr>
+      <th>Gender</th>
+      <td>Larry</td>    
+    </tr>
+     <tr>
+      <th>Age Group</th>
+      <td>Larry</td>    
+    </tr>
+     <tr>
+      <th>MPN</th>
+      <td>Larry</td>    
+    </tr>
+     <tr>
+      <th>Color</th>
+      <td>Larry</td>    
+    </tr>
+     <tr>
+      <th>Item Group ID</th>
+      <td>Larry</td>    
+    </tr>
+     <tr>
+      <th>Style Number</th>
+      <td>Larry</td>    
+    </tr>
+     <tr>
+      <th>GTIN</th>
+      <td>Larry</td>    
+    </tr>
+  </tbody>
+</table>
+		
 	</div>
 	 
 		

@@ -1,43 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
-	.modal-dialog{
-		position: relative;
-		display: table; //This is important 
-		overflow-y: auto;    
-		overflow-x: auto;
-		width: 400px !important;
-		min-width: 400px !important;   
-	}
 
-	@media (min-width: 1200px)
-	bootstrap.min.css:11
-	.container {
-		width: 1450px !important;
-	}
-	
-	.dataTables_wrapper{
-		border-width: 1px !important;
-		border-style:solid !important;
-		border-color: #A1A1A1 !important;
-		padding: 5px !important;
-	}
-	
-	.padding_10{
-		padding:10px !important;
-	}
-	
-	.padding_5{
-		padding:5px !important;
-	}
-	
-	.col-sm-12{
-		text-align:center;
-	}
-	
-	.img-responsive{
-		width:150px;
-	}
 </style>
 <link href="css/sb-admin.css" rel="stylesheet">
 <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -142,11 +106,11 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div class="huge">12</div>
-                                        <div>New Tasks!</div>
+                                        <div>Projects</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="<?php echo $project?>">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

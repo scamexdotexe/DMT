@@ -7,6 +7,10 @@
   margin-bottom: 0;
 }
 
+.navbar-inverse .navbar-nav > li > a:hover{
+    color: #000 !important;
+}
+
 footer {
   background-color: #f2f2f2;
   padding: 5px;
@@ -20,4 +24,45 @@ footer {
 
 body{
 	font-family: 'Istok Web', sans-serif;
+	background-image: url('../images/bg1a.jpg') !important;
+	background-repeat: repeat-x;
 }
+
+
+	.modal-dialog{
+		position: relative;
+		display: table; //This is important 
+		overflow-y: auto;    
+		overflow-x: auto;
+		width: 400px !important;
+		min-width: 400px !important;   
+	}
+
+	@media (min-width: 1200px)
+	bootstrap.min.css:11
+	.container {
+		width: 1450px !important;
+	}
+	
+	.dataTables_wrapper{
+		border-width: 1px !important;
+		border-style:solid !important;
+		border-color: #A1A1A1 !important;
+		padding: 5px !important;
+	}
+	
+	.padding_10{
+		padding:10px !important;
+	}
+	
+	.padding_5{
+		padding:5px !important;
+	}
+	
+	.col-sm-12{
+		text-align:center;
+	}
+	
+	.img-responsive{
+		width:150px;
+	}

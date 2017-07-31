@@ -16,5 +16,8 @@ if (isset($_GET['user_id'])) {
 $stmt = $connection->prepare("DELETE FROM projects WHERE id = ?  AND user_id = ?");
 $stmt->execute([$project_id,$user_id]);
 
+$stmt = $connection->prepare("DELETE FROM basedatafeed WHERE project_id = ?");
+$stmt->execute([$project_id]);
+
 header('Location: ../view/home.php');
 ?>

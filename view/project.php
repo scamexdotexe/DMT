@@ -52,6 +52,7 @@
   <!-- Datatables-->
   <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
   <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+  
 	
   <style>
     /* Remove the navbar's default rounded borders and increase the bottom margin */ 
@@ -181,7 +182,7 @@
 						"<td>".$row["project_type"]."</td>".
 						"<td>".$row["data_feed"]."</td>".
 						"<td>".$row["timestamp"]."</td>".
-						"<td><a class ='btn btn-warning btn-sm' href='../api/delete_projects.php?project_id=$project_id&user_id=$user_id'>"."Delete</a> ";
+						"<td><a class ='btn btn-warning btn-sm btn-dmt-delete' href='../api/delete_projects.php?project_id=$project_id&user_id=$user_id'>"."Delete</a> ";
 
 						if(isFeedExists($project_id)){
 
